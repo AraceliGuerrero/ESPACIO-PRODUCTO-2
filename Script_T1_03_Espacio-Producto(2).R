@@ -26,7 +26,7 @@ library (EconGeo)
 #seleccionar archivo desde la ruta de su ordenador
 
 M = as.matrix(
-  read.csv("RUTA" , 
+  read.csv("~/Laboratorios de R/LAB9/rca_2014.csv" , 
            sep = ",", 
            header = T, 
            row.names = 1))
@@ -37,20 +37,21 @@ dim (M)
 
 
 
-
+co.occurrence(M)
 # co-ocurrencia entre personas/paises/estados
 
 
 
 
 
-
+c = co.occurrence(t(M))
 # co-ocurrencia entre productos t es transpuesta
+c
 
 
 
-
-
+r = relatedness(c)
+r
 # estima el relacionamiento o proximidad pero normalizado, para asegurar que el numero de co ocurrencias que observamos
 # es mayor al numero de co ocurrencias probables (probailidad condicional)
 #tie and Surfboard puede que no esten tan relacionados, abajo de  1 no es relacionado mientras que mayor a 1 si es relacionado
@@ -64,15 +65,16 @@ dim (M)
 r[r<1] = 0
 r[r>1] = 1
 
-
+r
 
 
 library (igraph)
+g1 = graph_from_adjacency_matrix(r, mode = "undirected")
+plot(g1)
 
 
-
-
-
+write.csv (r, file="relatedness.csv")
+write.csv (c, file="cooccurrence.csv")
 #exportar resultados del relacionamiento binario
 
 #exportar resultados de co ocurrencias
